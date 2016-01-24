@@ -18,25 +18,35 @@
 # 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
 # 
 # For more information see the manual pages of crontab(5) and cron(8)
-#
+
 # Nikow's notes: 
 # nice: Will run command with lower priority - so my work on laptop 
 #       will be not disturbed.
-# if on_ac_power: part of ubuntu's powermgmt-base, one of the reasons
-#                 why my nikow's crontab project has been abadoned
-# 
+# when_on_ac: part of ubuntu's powermgmt-base, one of the reasons
+#             why my nikow's crontab project has been abadoned.
+#             Script:
+#             https://github.com/nikow/utils/blob/master/bin/when_on_ac
+# when_idle: run command when system is not bussy (like compilation,
+#            compression or gaming
+#            Script:
+#            https://github.com/nikow/utils/blob/master/bin/when_idle
+
+SHELL=/bin/bash
+PATH=/home/nikow/local/bin:/home/nikow/local/jre1.8.0_65/bin:/home/nikow/local/jdk1.8.0_65/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+
+
 # m h  dom mon dow   command
 
 # Dump dmesg every 15 minutes, but in most cases it generate the same files, 
 # so i call fdupes once per hour. 
 */15 * * * * nice /home/nikow/local/bin/dump_dmesg
-0 * * * * if on_ac_power; then nice /home/nikow/local/bin/fdupes -r -d -N /home/nikow/dmesg ; fi
+0 * * * * when_on_ac when_idle nice /home/nikow/local/bin/fdupes -r -d -N /home/nikow/dmesg ; fi
 
 # Some backups and stuff like rotating, encrypting for my storage.
-0 * * * * if on_ac_power; then nice /home/nikow/nstorage/update.sh ; fi
+5 * * * * when_on_ac when_idle nice /home/nikow/nstorage/update.sh
 
 # This basicaly can be on @reboot, but this works too.
-0 * * * * if on_ac_power; then nice /home/nikow/local/bin/noip ; fi
+10 * * * * when_on_ac when_idle nice /home/nikow/local/bin/noip
 
 # Ugly hack to fastload indoes to cache.
-@reboot if on_ac_power; then nice find /home/nikow/ >> /dev/null ; fi
+@reboot when_on_ac find /home/nikow/ >> /dev/null
