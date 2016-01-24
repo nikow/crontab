@@ -30,10 +30,13 @@
 #            compression or gaming
 #            Script:
 #            https://github.com/nikow/utils/blob/master/bin/when_idle
+# when_online: run command when online. It doesn't check interfaces, 
+#              just checks if Google DNS is available
+#              Script:
+#              https://github.com/nikow/utils/blob/master/bin/when_online
 
 SHELL=/bin/bash
 PATH=/home/nikow/local/bin:/home/nikow/local/jre1.8.0_65/bin:/home/nikow/local/jdk1.8.0_65/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
-
 
 # m h  dom mon dow   command
 
@@ -43,10 +46,10 @@ PATH=/home/nikow/local/bin:/home/nikow/local/jre1.8.0_65/bin:/home/nikow/local/j
 0 * * * * when_on_ac when_idle nice /home/nikow/local/bin/fdupes -r -d -N /home/nikow/dmesg ; fi
 
 # Some backups and stuff like rotating, encrypting for my storage.
-5 * * * * when_on_ac when_idle nice /home/nikow/nstorage/update.sh
+5 * * * * when_on_ac when_idle when_online nice /home/nikow/nstorage/update.sh
 
 # This basicaly can be on @reboot, but this works too.
-10 * * * * when_on_ac when_idle nice /home/nikow/local/bin/noip
+10 * * * * when_on_ac when_idle when_online nice /home/nikow/local/bin/noip
 
 # Ugly hack to fastload indoes to cache.
 @reboot when_on_ac find /home/nikow/ >> /dev/null
