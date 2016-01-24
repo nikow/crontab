@@ -43,7 +43,7 @@ PATH=/home/nikow/local/bin:/home/nikow/local/jre1.8.0_65/bin:/home/nikow/local/j
 # Dump dmesg every 15 minutes, but in most cases it generate the same files, 
 # so i call fdupes once per hour. 
 */15 * * * * nice /home/nikow/local/bin/dump_dmesg
-0 * * * * when_on_ac when_idle nice /home/nikow/local/bin/fdupes -r -d -N /home/nikow/dmesg ; fi
+0 * * * * when_on_ac when_idle nice /home/nikow/local/bin/fdupes -r -d -N /home/nikow/dmesg
 
 # Some backups and stuff like rotating, encrypting for my storage.
 5 * * * * when_on_ac when_idle when_online nice /home/nikow/nstorage/update.sh
